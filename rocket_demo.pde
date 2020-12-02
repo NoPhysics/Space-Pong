@@ -1,14 +1,14 @@
 Ball ball; // Global Ball
 Rocket player; // Player
-
+int devolutions;
 
 void setup(){
   size(800,600);
   ball = new Ball(width/2, height/2, 50); //create a new ball
   ball.speedX = 5; // Giving the ball speed in x-axis
   ball.speedY = random(-3,3); // Giving the ball speed in y-axis
-  player = new Rocket(15, height/2, 30, 100, 0.5, 10);
-
+  player = new Rocket(15, (height/2)+30, 30, 100, 0.5, 24);
+  devolutions = 0;
 }
 
 void draw(){
@@ -18,21 +18,22 @@ void draw(){
   borderCol();
   player.move();
   player.display();
-  text(player.speedY,100,100);
+  text("Speed: " + player.speedY,100,100); 
+  text("Devolutions: " +devolutions,100,200);
 }
 
 void keyPressed() {
   if(keyCode == UP) {
     if(player.y>player.h/2){
-      if(player.speedY - 4 > -player.maxSpeed){
-        player.speedY += -4;
+      if(player.speedY - 12 > -player.maxSpeed && player.y+player.h/2 > 0){
+        player.speedY += -12;
       }
     }
   }
-  if(key == 'w'){
+  if(key == DOWN){
     if(player.y>player.h/2){
-      if(player.speedY - 4 > -player.maxSpeed){
-        player.speedY += -4;
+      if(player.speedY - 12 > -player.maxSpeed){
+        player.speedY += -12;
       }
     }
   }
@@ -52,5 +53,10 @@ void borderCol() {
 
   if (ball.top() < 0) {
     ball.speedY = -ball.speedY;
+  }
+  
+  if(ball.left() < player.x && (abs(ball.y - player.y) <= player.h) && ball.speedX < 0) {
+    ball.speedX = -ball.speedX;
+    devolutions++;
   }
 }

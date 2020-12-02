@@ -32,7 +32,7 @@ class Rocket{
   }
 
   void move(){
-    if (y < height - h/2) {
+    if (y < height - h/2 && -speedY <= maxSpeed) {
       if(y > 0 + h/2){
         y += speedY;
         x += speedX;
@@ -46,8 +46,10 @@ class Rocket{
         speedY += gravity;
       }  
     } else {
-      if( speedY < 0) {
+      if(speedY < 0) {
         y += speedY;
+      } else {
+        speedY = 0; 
       }
     }
   }
@@ -70,4 +72,5 @@ class Rocket{
   float bottom(){
     return y+h/2;
   }
+
 }
