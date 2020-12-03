@@ -1,5 +1,6 @@
 Ball ball; // Global Ball
 Rocket player; // Player
+Enemy enemy;// Enemy
 int devolutions;
 
 void setup(){
@@ -8,6 +9,7 @@ void setup(){
   ball.speedX = 5; // Giving the ball speed in x-axis
   ball.speedY = random(-3,3); // Giving the ball speed in y-axis
   player = new Rocket(15, (height/2)+30, 30, 100, 0.5, 24);
+  enemy=new Enemy(width-15, (height/2)+30, 30, 100, 0.5, 24);
   devolutions = 0;
 }
 
@@ -18,6 +20,8 @@ void draw(){
   borderCol();
   player.move();
   player.display();
+  enemy.moveEnemy(ball);
+  enemy.display();
   text("Speed: " + player.speedY,100,100); 
   text("Devolutions: " +devolutions,100,200);
 }
@@ -59,4 +63,5 @@ void borderCol() {
     ball.speedX = -ball.speedX;
     devolutions++;
   }
+  
 }
