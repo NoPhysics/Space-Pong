@@ -16,6 +16,7 @@ void setup(){
   devolutions = 0;
   speedAccumulation = 0;
   gameOver = false;
+  factory = new ball_factory();
 }
 
 void draw(){
@@ -31,6 +32,7 @@ void draw(){
     if(ball.move()) {
       balls.remove(i);
     }
+    // change to actual game over when its time
     gameOver = ball.collision(player.x, player.y, player.w, player.h);
     ball.display();
   }  
@@ -66,13 +68,13 @@ void keyReleased() {
    speedAccumulation = 0; 
 }
 
-void borderCol() {
-  if (ball.right() > width) { //if stuff between () is true, execute code between {}
-    ball.speedX = -ball.speedX;
-  }
-   if (ball.left() < 0) {
-    ball.speedX = -ball.speedX;
-  }
+//void borderCol() {
+//  if (ball.right() > width) { //if stuff between () is true, execute code between {}
+//    ball.speedX = -ball.speedX;
+//  }
+//   if (ball.left() < 0) {
+//    ball.speedX = -ball.speedX;
+//  }
 
 //  if (ball.bottom() > height) {
 //    ball.speedY = -ball.speedY;
