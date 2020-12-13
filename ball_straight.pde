@@ -10,18 +10,26 @@ class Ball_Straight implements Ball{
     x = tempX;
     y = tempY;
     diameter = tempDiameter;
-    speedX = -2;
-    c = tempC; 
+    speedX = -4;
+    c = tempC;
   }
   
-  void move() {
+  boolean move() {
     // Add speed to location
     x = x + speedX;
+    if (x <= 0) {
+      return true;
+    }    
+    return false;
   }
   
   void display() {
     fill(c); //set the drawing color
     ellipse(x,y,diameter,diameter); //draw a circle
+  }
+  
+  boolean collision(float p_x, float p_y, float w, float h) {
+    return (p_x - w/2 <= x && p_x + w/2 >= x) && (p_y - h/2 <= y && p_y + h/2 >= y);
   }
   
   //helper functions

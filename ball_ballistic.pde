@@ -12,21 +12,36 @@ class Ball_Ballistic implements Ball {
     x = tempX;
     y = tempY;
     diameter = tempDiameter;
-    speedX = -15;
+    speedX = -random(6);
     c = tempC;
     grav = 0.05;
   }
   
-  void move() {
+  boolean move() {
     // Add speed to location
     speedY = speedY + grav;
     x = x + speedX;
     y = y + speedY;
+    if (x <= 0) {
+      return true;
+    }
+    if (y <= 0) {
+      speedY = -speedY;
+    }
+    if (y >= height) {
+      speedY = -speedY;
+    }
+    
+    return false;
   }
   
   void display() {
     fill(c); //set the drawing color
     ellipse(x,y,diameter,diameter); //draw a circle
+  }
+  
+  boolean collision(float p_x, float p_y, float w, float h) {
+    return (p_x - w/2 <= x && p_x + w/2 >= x) && (p_y - h/2 <= y && p_y + h/2 >= y);
   }
   
   //helper functions
