@@ -4,16 +4,19 @@ Enemy enemy;// Enemy
 Ball temp;
 ball_factory factory; // Ball factory
 int devolutions;
-Ball_Ballistic balli;
+int speedAccumulation;
 int time = millis();
 
 void setup(){
-  size(800,600);
+  fullScreen();
+  ball = new Ball(width/2, height/2, 50); //create a new ball
+  ball.speedX = 5; // Giving the ball speed in x-axis
+  ball.speedY = random(-3,3); // Giving the ball speed in y-axis
+  player = new Rocket(15, (height/2)+30, 60, 175, 0.5, 24);
   balls = new ArrayList<Ball>();
-  player = new Rocket(15, (height/2)+30, 30, 100, 0.5, 24);
   enemy=new Enemy(width-15, (height/2)+30, 30, 100, 0.5, 24);
   devolutions = 0;
-  balli = new Ball_Ballistic(enemy.x,enemy.y,10,color(255,0,25));
+  speedAccumulation = 0;
 }
 
 void draw(){
@@ -48,30 +51,33 @@ void draw(){
 
 void keyPressed() {
   if(keyCode == UP) {
+    if(player.y == 0) return; 
     if(player.y>player.h/2){
-      if(player.speedY - 12 > -player.maxSpeed && player.y+player.h/2 > 0){
-        player.speedY += -12;
+      if(player.speedY - 4 > -player.maxSpeed && player.y+player.h/2 > 0){
+        player.speedY += -4;
       }
     }
   }
-  if(key == DOWN){
-    print(balls);
+  if(keyCode == DOWN){
     if(player.y>player.h/2){
-      if(player.speedY - 12 > -player.maxSpeed){
-        player.speedY += -12;
+      if(player.speedY + 4 > 0){
+        player.speedY -= -4;
       }
     }
   }
 }
 
-// pasar a colisiones en cada uno.
-//void borderCol() {
-//  if (ball.right() > width) { //if stuff between () is true, execute code between {}
-//    ball.speedX = -ball.speedX;
-//  }
-//   if (ball.left() < 0) {
-//    ball.speedX = -ball.speedX;
-//  }
+void keyReleased() {
+   speedAccumulation = 0; 
+}
+
+void borderCol() {
+  if (ball.right() > width) { //if stuff between () is true, execute code between {}
+    ball.speedX = -ball.speedX;
+  }
+   if (ball.left() < 0) {
+    ball.speedX = -ball.speedX;
+  }
 
 //  if (ball.bottom() > height) {
 //    ball.speedY = -ball.speedY;
