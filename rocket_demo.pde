@@ -20,11 +20,14 @@ void setup(){
   gameOver = false;
   factory = new ball_factory();
   lifes = 3;
+  textSize(40);
 }
 
 void draw(){
   if(gameOver) {
-    
+      clear();
+      text("GAME OVER. Your final score is " + score,width/2-20,height/2-20); 
+  
   } else {
       if (millis() > time + 2000)
       {
@@ -51,8 +54,8 @@ void draw(){
       player.display();
       enemy.moveEnemy(temp);
       enemy.display();
-      text("Score: " + score,100,100); 
-      text("Lifes: " +lifes,100,200);
+      text("Score: " + score,width/2-20,100); 
+      text("Lifes: " +lifes,width/2-20,200);
   }
 }
 
