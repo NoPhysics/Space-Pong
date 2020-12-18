@@ -6,6 +6,8 @@ ball_factory factory; // Ball factory
 int devolutions;
 int speedAccumulation;
 int time = millis();
+int score;
+int lifes;
 boolean gameOver;
 
 void setup(){
@@ -17,41 +19,50 @@ void setup(){
   speedAccumulation = 0;
   gameOver = false;
   factory = new ball_factory();
+  lifes = 3;
 }
 
 void draw(){
-  if (millis() > time + 2000)
-  {
-    balls.add(factory.randomShoot(enemy.x, enemy.y));
-    time = millis();
+  if(gameOver) {
+    
+  } else {
+      if (millis() > time + 2000)
+      {
+        balls.add(factory.randomShoot(enemy.x, enemy.y));
+        time = millis();
+        score += 100;
+      }
+      background(0); // Clear the window
+      for (int i = balls.size()-1; i >= 0; i--) { 
+        // An ArrayList doesn't know what it is storing so we have to cast the object coming out
+        Ball ball = balls.get(i);
+        if(ball.move()) {
+          balls.remove(i);
+        }
+        // change to actual game over when its time
+        if(ball.collision(player.x, player.y, player.w, player.h)) {
+          lifes--;
+          if (lifes <= 0) gameOver = true; 
+          balls.remove(i);
+        }
+        ball.display();
+      }  
+      player.move();
+      player.display();
+      enemy.moveEnemy(temp);
+      enemy.display();
+      text("Score: " + score,100,100); 
+      text("Lifes: " +lifes,100,200);
   }
-  background(0); // Clear the window
-  for (int i = balls.size()-1; i >= 0; i--) { 
-    // An ArrayList doesn't know what it is storing so we have to cast the object coming out
-    Ball ball = balls.get(i);
-    if(ball.move()) {
-      balls.remove(i);
-    }
-    // change to actual game over when its time
-    gameOver = ball.collision(player.x, player.y, player.w, player.h);
-    ball.display();
-  }  
-  player.move();
-  player.display();
-  enemy.moveEnemy(temp);
-  enemy.display();
-  text("Speed: " + player.speedY,100,100); 
-  text("Devolutions: " +devolutions,100,200);
-  text("Balls" + balls.size(), 100,300);
-  text("Game Over" + gameOver, 100,400);
 }
 
 void keyPressed() {
   if(keyCode == UP) {
+    player.speedY = 0;
     if(player.y == 0) return; 
     if(player.y>player.h/2){
-      if(player.speedY - 4 > -player.maxSpeed && player.y+player.h/2 > 0){
-        player.speedY += -4;
+      if(player.speedY - 6 > -player.maxSpeed && player.y+player.h/2 > 0){
+        player.speedY += -6;
       }
     }
   }
