@@ -9,17 +9,22 @@ int time = millis();
 int score;
 int lifes;
 boolean gameOver;
-
+PImage imgHeart;
+PImage imgBrokenHeart;
+ 
 void setup(){
   fullScreen();
-  player = new Rocket(15, (height/2)+30, 60, 175, 0.5, 24);
+  player = new Rocket(80, (height/2)+30, 51.6, 73.8, 0.5, 24);
   balls = new ArrayList<Ball>();
-  enemy=new Enemy(width-15, (height/2)+30, 30, 100, 0.5, 24);
+  enemy=new Enemy(width-80, 100, 30, 100, 0.5, 24);
   devolutions = 0;
   speedAccumulation = 0;
   gameOver = false;
   factory = new ball_factory();
   lifes = 3;
+  imgHeart =loadImage("vida.png");
+  imgBrokenHeart =loadImage("muerte.png");
+  imageMode(CENTER);
   textSize(40);
 }
 
@@ -47,16 +52,34 @@ void draw(){
           lifes--;
           if (lifes <= 0) gameOver = true; 
           balls.remove(i);
+          displayLifes(3-lifes);
         }
         ball.display();
       }  
       player.move();
       player.display();
-      enemy.moveEnemy(temp);
+      enemy.moveEnemy();
       enemy.display();
+      displayLifes(3-lifes);
       text("Score: " + score,width/2-20,100); 
-      text("Lifes: " +lifes,width/2-20,200);
+      
   }
+}
+
+void displayLifes(int brokenHearts) {
+  for(int i=0; i<3;i++){
+    if(brokenHearts > 0) {
+      image(imgBrokenHeart,(width/2+20 + i*40),200,36,36);
+      brokenHearts--;
+    }
+    else {
+      image(imgHeart,(width/2+20 + i*40),200,50,50);
+    }  
+  }
+}
+
+void displayDie(){
+  
 }
 
 void keyPressed() {
@@ -102,4 +125,3 @@ void keyReleased() {
 //    ball.speedX = -ball.speedX;
 //    devolutions++;
 //  }
-  
