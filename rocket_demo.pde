@@ -7,20 +7,33 @@ int devolutions;
 int speedAccumulation;
 int time = millis();
 int score;
-int lifes;
+int life;
+Lifes [] lifes;
+Lifes life1;
+Lifes life2;
+Lifes life3;
 boolean gameOver;
 
 void setup(){
   fullScreen();
-  player = new Rocket(15, (height/2)+30, 60, 175, 0.5, 24);
+  player = new Rocket(80, (height/2)+30, 60, 175, 0.5, 24);
   balls = new ArrayList<Ball>();
-  enemy=new Enemy(width-15, (height/2)+30, 30, 100, 0.5, 24);
+  enemy=new Enemy(width-80, 100, 30, 100, 0.5, 24);
   devolutions = 0;
   speedAccumulation = 0;
   gameOver = false;
   factory = new ball_factory();
-  lifes = 3;
+  lifes=new Lifes[3];
+  life1=new Lifes((width/2+20),200);
+  life2=new Lifes((width/2+60),200);
+  life3= new Lifes((width/2+100),200);
+  lifes [0]= life1;
+  lifes [1]= life2;
+  lifes [2]= life3;
+  life=lifes.length;
   textSize(40);
+  
+  
 }
 
 void draw(){
@@ -44,18 +57,22 @@ void draw(){
         }
         // change to actual game over when its time
         if(ball.collision(player.x, player.y, player.w, player.h)) {
-          lifes--;
-          if (lifes <= 0) gameOver = true; 
+          life--;
+          lifes[life].setimage();
+          if (life <= 0) gameOver = true; 
           balls.remove(i);
         }
         ball.display();
       }  
       player.move();
       player.display();
-      enemy.moveEnemy(temp);
+      enemy.moveEnemy();
       enemy.display();
+      for(int i=0; i<lifes.length;i++){
+        lifes[i].display();
+      }
       text("Score: " + score,width/2-20,100); 
-      text("Lifes: " +lifes,width/2-20,200);
+      
   }
 }
 
@@ -102,4 +119,3 @@ void keyReleased() {
 //    ball.speedX = -ball.speedX;
 //    devolutions++;
 //  }
-  
