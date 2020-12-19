@@ -24,32 +24,29 @@ class Enemy{
     y = tempY;
     w = tempW;
     h = tempH;
-    speedY = 0;
-    speedX = 0;
+    speedY = 5;
+    speedX = 5;
     c=(255);
     gravity = grav;
     maxSpeed = max;
   }
   
   //Movimiento automatico
-  void moveEnemy(Ball pBall)
+  void moveEnemy()
 {
-  float easing = abs(pBall.y) * 0.1;
-  float targetY = pBall.y;
-  if( targetY <= 0)
-  {
-    targetY = 15;
-  }
-  else if (targetY == height)
-  {
-    targetY = pBall.y-height/2;
-  }
-  y += (targetY-y)/ easing;
-}
 
+      if (this.y<height) {
+        this.y=this.y+1;
+        
+    }  else{
+    this.y=100;
+    }
+ 
+  }
   void display(){
-    fill(c);
-    rect(x-w/2,y-h/2,w,h);
+     PImage img =loadImage("enemy2.png");
+    imageMode(CENTER);
+    image(img,x,y,160,160);
   } 
   
   //helper functions
