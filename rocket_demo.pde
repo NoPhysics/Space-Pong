@@ -7,33 +7,25 @@ int devolutions;
 int speedAccumulation;
 int time = millis();
 int score;
-int life;
-Lifes [] lifes;
-Lifes life1;
-Lifes life2;
-Lifes life3;
+int lifes;
 boolean gameOver;
-
+PImage imgHeart;
+PImage imgBrokenHeart;
+ 
 void setup(){
   fullScreen();
-  player = new Rocket(80, (height/2)+30, 60, 175, 0.5, 24);
+  player = new Rocket(80, (height/2)+30, 51.6, 73.8, 0.5, 24);
   balls = new ArrayList<Ball>();
   enemy=new Enemy(width-80, 100, 30, 100, 0.5, 24);
   devolutions = 0;
   speedAccumulation = 0;
   gameOver = false;
   factory = new ball_factory();
-  lifes=new Lifes[3];
-  life1=new Lifes((width/2+20),200);
-  life2=new Lifes((width/2+60),200);
-  life3= new Lifes((width/2+100),200);
-  lifes [0]= life1;
-  lifes [1]= life2;
-  lifes [2]= life3;
-  life=lifes.length;
+  lifes = 3;
+  imgHeart =loadImage("vida.png");
+  imgBrokenHeart =loadImage("muerte.png");
+  imageMode(CENTER);
   textSize(40);
-  
-  
 }
 
 void draw(){
@@ -57,10 +49,10 @@ void draw(){
         }
         // change to actual game over when its time
         if(ball.collision(player.x, player.y, player.w, player.h)) {
-          life--;
-          lifes[life].setimage();
-          if (life <= 0) gameOver = true; 
+          lifes--;
+          if (lifes <= 0) gameOver = true; 
           balls.remove(i);
+          displayLifes(3-lifes);
         }
         ball.display();
       }  
@@ -68,12 +60,26 @@ void draw(){
       player.display();
       enemy.moveEnemy();
       enemy.display();
-      for(int i=0; i<lifes.length;i++){
-        lifes[i].display();
-      }
+      displayLifes(3-lifes);
       text("Score: " + score,width/2-20,100); 
       
   }
+}
+
+void displayLifes(int brokenHearts) {
+  for(int i=0; i<3;i++){
+    if(brokenHearts > 0) {
+      image(imgBrokenHeart,(width/2+20 + i*40),200,36,36);
+      brokenHearts--;
+    }
+    else {
+      image(imgHeart,(width/2+20 + i*40),200,50,50);
+    }  
+  }
+}
+
+void displayDie(){
+  
 }
 
 void keyPressed() {

@@ -58,7 +58,7 @@ class Rocket{
     
      PImage img =loadImage("cohete2.png");
     imageMode(CENTER);
-    image(img,x-w/2,y-h/2,160,160);
+    image(img,x-w/2,y-h/2,w,h);
   } 
   
   //helper functions
